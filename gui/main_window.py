@@ -22,11 +22,11 @@ from core.calculator import calculate_concentration
 from core.utils import cv2_imread, cv2_imwrite, natural_sort_key
 
 class CellCounterGUI(QMainWindow):
-    """Hemocytometer Main GUI v2.1.5 - Refactored"""
+    """Hemocytometer Main GUI v2.1.6 - Refactored"""
     
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("🔬 Hemocytometer Cell Counter v2.1.5")
+        self.setWindowTitle("🔬 Hemocytometer Cell Counter v2.1.6")
         
         # Initialize all UI attributes to None to avoid early signal crashes
         self.status_images = None
@@ -135,7 +135,7 @@ class CellCounterGUI(QMainWindow):
         toolbar.setMovable(False)
         self.addToolBar(toolbar)
         
-        title_label = QLabel(" 🔬 CellCounter v2.1.5 ")
+        title_label = QLabel(" 🔬 CellCounter v2.1.6 ")
         title_label.setStyleSheet("color: #00d4ff; font-weight: bold; font-size: 16px; margin-right: 15px;")
         toolbar.addWidget(title_label)
         toolbar.addSeparator()
@@ -302,7 +302,7 @@ class CellCounterGUI(QMainWindow):
         help_text = """
         <div style='color: #ffffff; background-color: #0f0f1a; font-family: "Segoe UI", sans-serif; min-width: 650px; padding: 10px;'>
             <h2 style='color: #00d4ff; text-align: center; border-bottom: 2px solid #00d4ff; padding-bottom: 10px; margin-bottom: 20px;'>
-                🔬 CellCounter v2.1.5 - User Guide & Parameters / 操作指南与参数说明
+                🔬 CellCounter v2.1.6 - User Guide & Parameters / 操作指南与参数说明
             </h2>
             
             <div style='display: flex; flex-direction: row; gap: 20px;'>
@@ -646,29 +646,44 @@ class CellCounterGUI(QMainWindow):
                 self._save_settings()
         elif msg.clickedButton() == btn_folder:
             print(f"DEBUG: Opening folder dialog in {self.last_dir}")
-            folder = QFileDialog.getExistingDirectory(self, "Select Folder", self.last_dir)
-            if folder:
+            
+            # Use a custom dialog to allow seeing files while picking a directory
+            dialog = QFileDialog(self)
+            dialog.setWindowTitle("Select Folder (Files are visible for reference)")
+            dialog.setDirectory(self.last_dir)
+            dialog.setFileMode(QFileDialog.FileMode.Directory)
+            dialog.setOption(QFileDialog.Option.ShowDirsOnly, False) # This allows seeing files
+            
+            if dialog.exec():
+                selected_dirs = dialog.selectedFiles()
+                if not selected_dirs: return
+                folder = selected_dirs[0]
+                
                 print(f"DEBUG: Selected folder: {folder}")
                 self.last_dir = folder
                 self._save_settings()
+                
                 # Get first 4 valid images from folder
                 valid_exts = ('.jpg', '.jpeg', '.png', '.bmp', '.webp', '.tiff', '.tif')
                 try:
                     all_files = os.listdir(folder)
-                    print(f"DEBUG: Total files in folder: {len(all_files)}")
                     files = [os.path.join(folder, f) for f in all_files 
                             if f.lower().endswith(valid_exts)]
                 except Exception as e:
                     print(f"DEBUG: Error listing folder: {e}")
                     files = []
                 
-                print(f"DEBUG: Found {len(files)} valid image files.")
-                print(f"DEBUG: Valid extensions: {valid_exts}")
                 if files:
-                    print(f"DEBUG: Sample of found files: {files[:5]}")
+                    files.sort(key=natural_sort_key)
+                    count = min(len(files), 4)
+                    file_names = "\n".join([os.path.basename(f) for f in files[:4]])
+                    QMessageBox.information(self, "Import Successful", 
+                                          f"Successfully found {len(files)} images.\n"
+                                          f"The first {count} images will be loaded:\n\n{file_names}")
                 else:
-                    # Show some of the files that were found but didn't match
-                    print(f"DEBUG: Non-matching files sample: {all_files[:10] if 'all_files' in locals() else 'N/A'}")
+                    QMessageBox.warning(self, "No Images Found", 
+                                      f"No valid images (JPG, PNG, TIFF, etc.) were found in:\n{folder}")
+                    return
         
         if not files: return
         
