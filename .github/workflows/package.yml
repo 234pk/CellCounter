@@ -65,24 +65,23 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install nuitka zstandard
+          pip install -r macos/requirements.txt
 
       - name: Install create-dmg
         run: brew install create-dmg
 
       - name: Build App Bundle with Nuitka
         run: |
+          cd macos
           python -m nuitka --standalone \
             --macos-create-app-bundle \
             --macos-disable-console \
             --show-progress \
-            --plugin-enable=pyqt6 \
-            --no-deployment-flag=self-test \
+            --plugin-enable=pyside6 \
             --follow-imports \
             --include-package=cv2 \
             --include-package=numpy \
-            --output-dir=build \
+            --output-dir=../build \
             --assume-yes-for-downloads \
             main.py
 

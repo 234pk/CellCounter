@@ -4,16 +4,16 @@ import numpy as np
 from datetime import datetime
 from typing import List, Optional, Tuple
 
-from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import (
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
     QLabel, QPushButton, QFileDialog, QSpinBox, QDoubleSpinBox,
     QTableWidget, QTableWidgetItem, QProgressBar, QMessageBox,
     QSplitter, QComboBox, QTabWidget, QToolBar, QSizePolicy, QFrame,
     QScrollArea, QButtonGroup
 )
-from PyQt6.QtCore import Qt, QPointF, QSettings
-from PyQt6.QtGui import QAction, QKeySequence, QFont
+from PySide6.QtCore import Qt, QPointF, QSettings, Slot
+from PySide6.QtGui import QAction, QKeySequence, QFont
 
 from gui.viewer import PolygonViewer
 from gui.styles import MAIN_STYLE
