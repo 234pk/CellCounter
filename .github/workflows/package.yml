@@ -1,8 +1,10 @@
-name: Package Application
+name: Package and Release
 
 on:
   push:
     branches: [ main ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -29,11 +31,15 @@ jobs:
         run: |
           python -m nuitka --standalone --show-progress --windows-console-mode=disable --plugin-enable=pyqt6 --follow-imports --include-package=cv2 --include-package=numpy --output-dir=build --onefile main.py
 
-      - name: Upload EXE
+      - name: Rename Output
+        run: |
+          mv build/main.exe build/CellCounter-Windows.exe
+
+      - name: Upload EXE Artifact
         uses: actions/upload-artifact@v4
         with:
           name: CellCounter-Windows
-          path: build/main.exe
+          path: build/CellCounter-Windows.exe
 
   build-macos:
     runs-on: macos-latest
@@ -73,8 +79,39 @@ jobs:
             "dist/CellCounter-macOS.dmg" \
             "build/main.app"
 
-      - name: Upload DMG
+      - name: Upload DMG Artifact
         uses: actions/upload-artifact@v4
         with:
           name: CellCounter-macOS
           path: dist/CellCounter-macOS.dmg
+
+  release:
+    needs: [build-windows, build-macos]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: CellCounter-Windows
+          path: ./release-assets
+
+      - name: Download macOS Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: CellCounter-macOS
+          path: ./release-assets
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-assets/CellCounter-Windows.exe
+            release-assets/CellCounter-macOS.dmg
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
