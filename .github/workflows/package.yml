@@ -29,7 +29,17 @@ jobs:
 
       - name: Build EXE with Nuitka
         run: |
-          python -m nuitka --standalone --show-progress --windows-console-mode=disable --plugin-enable=pyqt6 --follow-imports --include-package=cv2 --include-package=numpy --output-dir=build --onefile main.py
+          python -m nuitka --standalone \
+            --show-progress \
+            --windows-console-mode=disable \
+            --plugin-enable=pyqt6 \
+            --follow-imports \
+            --include-package=cv2 \
+            --include-package=numpy \
+            --output-dir=build \
+            --onefile \
+            --assume-yes-for-downloads \
+            main.py
 
       - name: Rename Output
         run: |
@@ -72,6 +82,7 @@ jobs:
             --include-package=cv2 \
             --include-package=numpy \
             --output-dir=build \
+            --assume-yes-for-downloads \
             main.py
 
       - name: Create DMG
