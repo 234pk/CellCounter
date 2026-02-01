@@ -75,6 +75,7 @@ jobs:
         run: |
           python -m nuitka --standalone \
             --macos-create-app-bundle \
+            --macos-disable-console \
             --show-progress \
             --plugin-enable=pyqt6 \
             --no-deployment-flag=self-test \

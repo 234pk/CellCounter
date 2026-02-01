@@ -22,11 +22,11 @@ from core.calculator import calculate_concentration
 from core.utils import cv2_imread, cv2_imwrite, natural_sort_key
 
 class CellCounterGUI(QMainWindow):
-    """Hemocytometer Main GUI v2.1.4 - Refactored"""
+    """Hemocytometer Main GUI v2.1.5 - Refactored"""
     
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("🔬 Hemocytometer Cell Counter v2.1.4")
+        self.setWindowTitle("🔬 Hemocytometer Cell Counter v2.1.5")
         
         # Initialize all UI attributes to None to avoid early signal crashes
         self.status_images = None
@@ -135,7 +135,7 @@ class CellCounterGUI(QMainWindow):
         toolbar.setMovable(False)
         self.addToolBar(toolbar)
         
-        title_label = QLabel(" 🔬 CellCounter v2.1.4 ")
+        title_label = QLabel(" 🔬 CellCounter v2.1.5 ")
         title_label.setStyleSheet("color: #00d4ff; font-weight: bold; font-size: 16px; margin-right: 15px;")
         toolbar.addWidget(title_label)
         toolbar.addSeparator()
@@ -302,7 +302,7 @@ class CellCounterGUI(QMainWindow):
         help_text = """
         <div style='color: #ffffff; background-color: #0f0f1a; font-family: "Segoe UI", sans-serif; min-width: 650px; padding: 10px;'>
             <h2 style='color: #00d4ff; text-align: center; border-bottom: 2px solid #00d4ff; padding-bottom: 10px; margin-bottom: 20px;'>
-                🔬 CellCounter v2.1.4 - User Guide & Parameters / 操作指南与参数说明
+                🔬 CellCounter v2.1.5 - User Guide & Parameters / 操作指南与参数说明
             </h2>
             
             <div style='display: flex; flex-direction: row; gap: 20px;'>
