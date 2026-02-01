@@ -1,20 +1,20 @@
 import cv2
 import numpy as np
 from typing import List, Optional, Tuple
-from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtCore import Qt, pyqtSignal, QPointF, QRect
-from PyQt6.QtGui import (
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6.QtCore import Qt, Signal, QPointF, QRect
+from PySide6.QtGui import (
     QPixmap, QColor, QPainter, QPen, QBrush, QFont, 
     QPolygonF, QLinearGradient, QImage
 )
-from PyQt6.QtWidgets import QLabel
+from PySide6.QtWidgets import QLabel
 from gui.styles import VIEWER_STYLE
 from core.utils import cv2_imread
 
 class PolygonViewer(QLabel):
     """Polygon ROI Viewer with mode-based interaction"""
 
-    polygon_changed = pyqtSignal()
+    polygon_changed = Signal()
     
     MODE_ROI = "roi"
     MODE_MANUAL = "manual"
@@ -24,7 +24,7 @@ class PolygonViewer(QLabel):
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setStyleSheet(VIEWER_STYLE)
         self.setMinimumSize(400, 300)
-        self.setText("<div style='color: #666; font-size: 16px;'>📷 Click 'Import' to start<br><br>💡 Shift+Left: Add ROI points | Right: Close ROI</div>")
+        self.setText("<div style='font-size: 16px;'>📷 Click 'Import' to start<br><br>💡 Shift+Left: Add ROI points | Right: Close ROI</div>")
 
         self.original_pixmap: Optional[QPixmap] = None
         self.image_np = None
