@@ -29,16 +29,16 @@ jobs:
 
       - name: Build EXE with Nuitka
         run: |
-          python -m nuitka --standalone \
-            --show-progress \
-            --windows-console-mode=disable \
-            --plugin-enable=pyqt6 \
-            --follow-imports \
-            --include-package=cv2 \
-            --include-package=numpy \
-            --output-dir=build \
-            --onefile \
-            --assume-yes-for-downloads \
+          python -m nuitka --standalone `
+            --show-progress `
+            --windows-console-mode=disable `
+            --plugin-enable=pyqt6 `
+            --follow-imports `
+            --include-package=cv2 `
+            --include-package=numpy `
+            --output-dir=build `
+            --onefile `
+            --assume-yes-for-downloads `
             main.py
 
       - name: Rename Output
