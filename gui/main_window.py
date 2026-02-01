@@ -300,63 +300,64 @@ class CellCounterGUI(QMainWindow):
     
     def _show_about(self):
         help_text = """
-        <div style='color: #ffffff; background-color: #0f0f1a; font-family: "Segoe UI", sans-serif; min-width: 500px; padding: 10px;'>
-            <h2 style='color: #00d4ff; text-align: center; border-bottom: 2px solid #00d4ff; padding-bottom: 10px;'>
-                🔬 CellCounter v2.1 - User Manual / 操作手册
+        <div style='color: #ffffff; background-color: #0f0f1a; font-family: "Segoe UI", sans-serif; min-width: 650px; padding: 10px;'>
+            <h2 style='color: #00d4ff; text-align: center; border-bottom: 2px solid #00d4ff; padding-bottom: 10px; margin-bottom: 20px;'>
+                🔬 CellCounter v2.1 - User Guide & Parameters / 操作指南与参数说明
             </h2>
             
-            <div style='margin-top: 15px;'>
-                <h3 style='color: #00ff88;'>Step 1: Import / 第一步：导入图片</h3>
-                <p>Click <b>"Import Images"</b> to select up to 4 images or a folder.</p>
-                <p>点击 <b>"Import Images"</b> 选择最多4张图片或整个文件夹。</p>
-            </div>
-
-            <div style='margin-top: 15px;'>
-                <h3 style='color: #00ff88;'>Step 2: Define ROI / 第二步：划定计数区域</h3>
-                <p>Use <b>Shift + Left Click</b> to draw. Right-click to close.</p>
-                <p>使用 <b>Shift + 左键</b> 绘制区域。右键点击闭合。</p>
-            </div>
-
-            <div style='margin-top: 15px;'>
-                    <h3 style='color: #00ff88;'>Step 3: Auto Count / 第三步：自动计数</h3>
-                    <p>Adjust parameters and click <b>"Start All Tabs"</b> to process all images.</p>
-                    <p>调整参数并点击 <b>"Start All Tabs"</b> 处理所有图片。</p>
+            <div style='display: flex; flex-direction: row; gap: 20px;'>
+                <div style='flex: 1;'>
+                    <h3 style='color: #00ff88; border-left: 4px solid #00ff88; padding-left: 10px;'>📖 Manual Operation / 手动操作指南</h3>
+                    <ol style='padding-left: 20px; line-height: 1.6;'>
+                        <li><b>导入图片</b>：点击左侧面板顶部的 <b>"Import Images"</b>。您可以一次选择多张图片，或者选择整个文件夹（程序会自动加载前4张有效图片）。</li>
+                        <li><b>划定计数区</b>：在主视图中，按住 <b>Shift + 鼠标左键</b> 点击来绘制多边形区域。绘制完成后，<b>鼠标右键</b> 点击即可闭合区域。</li>
+                        <li><b>参数配置</b>：在左侧“Detection Parameters”面板调整识别参数（详见右侧参数说明）。</li>
+                        <li><b>执行计数</b>：点击左侧底部的 <b>"Start All Tabs"</b>。程序将依次处理所有已加载图片的 ROI 区域。</li>
+                        <li><b>手动微调</b>：点击上方的 <b>"Manual Edit Mode"</b> (或按 M 键)。在图中 <b>左键点击</b> 增加漏选的细胞，<b>右键点击</b> 删除误选的点。</li>
+                        <li><b>计算结果</b>：在右侧结果表格中输入“Sample Vol (mL)”（样本总体积），程序会自动计算总细胞数。</li>
+                        <li><b>导出报告</b>：点击右下角 <b>"Export Report"</b> 导出 CSV 格式的详细结果。</li>
+                    </ol>
                 </div>
 
-            <div style='margin-top: 15px;'>
-                <h3 style='color: #00ff88;'>Step 4: Manual Edit / 第四步：手动修正</h3>
-                <p>Press <b>'M'</b> for Manual Mode. <b>Left-click</b> add, <b>Right-click</b> remove.</p>
-                <p>按 <b>'M'</b> 进入手动模式。<b>左键</b> 添加，<b>右键</b> 删除。</p>
+                <div style='flex: 1; background-color: #1a1a2e; padding: 15px; border-radius: 8px; border: 1px solid #2a2a4a;'>
+                    <h3 style='color: #ffcc00; margin-top: 0;'>⚙️ Parameters / 参数详细介绍</h3>
+                    <ul style='padding-left: 15px; line-height: 1.5; font-size: 13px;'>
+                        <li style='margin-bottom: 10px;'><b>Min/Max Area (像素面积)</b>：设置细胞的大小范围。
+                            <br/><span style='color: #888;'>- 调小 Min 可识别更小的碎屑/细胞；调大 Max 可过滤粘连的杂质。</span></li>
+                        <li style='margin-bottom: 10px;'><b>Circularity (圆度)</b>：控制识别目标的形状。
+                            <br/><span style='color: #888;'>- 越接近 1.0 表示越圆。开启此项可有效过滤非圆形的纤维或气泡。</span></li>
+                        <li style='margin-bottom: 10px;'><b>Chamber Type (计数板类型)</b>：预设的不同品牌计数板参数。
+                            <br/><span style='color: #888;'>- 影响深度和网格面积，直接关系到浓度计算的准确性。</span></li>
+                        <li style='margin-bottom: 10px;'><b>Dilution Factor (稀释倍数)</b>：样本的稀释比例。
+                            <br/><span style='color: #888;'>- 如果是原液则设为 1；若 1:1 稀释则设为 2。</span></li>
+                        <li style='margin-bottom: 10px;'><b>Sample Vol (样本总体积)</b>：
+                            <br/><span style='color: #888;'>- 用于从“浓度”换算出“样本总细胞数”。</span></li>
+                    </ul>
+                </div>
             </div>
 
-            <div style='margin-top: 15px; background-color: #1a1a2e; padding: 10px; border-radius: 5px; border: 1px solid #2a2a4a;'>
-                <h3 style='color: #ffcc00; margin-top: 0;'>Shortcuts / 快捷键</h3>
-                <table style='width: 100%; color: #ffffff;'>
-                    <tr><td><b>1, 2, 3, 4</b></td><td>Switch Tabs / 切换页签</td></tr>
-                    <tr><td><b>M</b></td><td>Toggle Mode / 切换模式</td></tr>
-                    <tr><td><b>Delete</b></td><td>Clear ROI / 清除区域</td></tr>
-                    <tr><td><b>Arrows</b></td><td>Pan / 移动</td></tr>
-                    <tr><td><b>+ / -</b></td><td>Zoom / 缩放</td></tr>
-                </table>
+            <div style='margin-top: 20px; padding: 10px; border-top: 1px solid #333; font-size: 12px; color: #888; text-align: center;'>
+                Shortcuts: [1-4] Tabs | [M] Mode | [Del] Clear | [+/-] Zoom | [Arrows] Pan
             </div>
         </div>
         """
         msg = QMessageBox(self)
-        msg.setWindowTitle("Help & About")
+        msg.setWindowTitle("User Guide & Parameter Documentation")
         msg.setTextFormat(Qt.TextFormat.RichText)
         msg.setText(help_text)
-        # Force dark theme style for the message box to avoid white background
+        # Force dark theme style for the message box
         msg.setStyleSheet("""
-            QMessageBox { background-color: #0f0f1a; border: 1px solid #2a2a4a; }
-            QLabel { color: #ffffff; background-color: transparent; }
+            QMessageBox { background-color: #0f0f1a; border: 1px solid #00d4ff; }
+            QLabel { color: #ffffff; }
             QPushButton { 
                 background-color: #2a2a4a; 
                 color: white; 
                 border-radius: 4px; 
-                padding: 5px 15px;
-                min-width: 60px;
+                padding: 6px 15px; 
+                min-width: 80px;
+                border: 1px solid #3a3a5e;
             }
-            QPushButton:hover { background-color: #3a3a6a; }
+            QPushButton:hover { background-color: #3a3a5e; border: 1px solid #00d4ff; }
         """)
         msg.exec()
     
