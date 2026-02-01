@@ -650,6 +650,9 @@ class CellCounterGUI(QMainWindow):
                 valid_exts = ('.jpg', '.jpeg', '.png', '.bmp', '.webp', '.tiff', '.tif')
                 files = [os.path.join(folder, f) for f in os.listdir(folder) 
                         if f.lower().endswith(valid_exts)]
+                print(f"DEBUG: Found {len(files)} valid images in {folder}")
+                if files:
+                    print(f"DEBUG: First few files: {files[:3]}")
         
         if not files: return
         

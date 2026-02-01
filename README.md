@@ -43,17 +43,31 @@
 - `+/-`: 缩放图片
 - `方向键`: 平移图片
 
-### 📦 Nuitka 打包工作流 (Windows EXE)
-为了确保最佳兼容性，请使用以下步骤进行打包：
+### 📦 打包与分发
+本项目支持通过 GitHub Actions 自动打包，也可以在本地手动打包。
+
+#### 1. GitHub Actions 自动打包 (推荐)
+每当代码推送到 `main` 分支时，GitHub 会自动触发打包流程，生成 Windows (EXE) 和 macOS (DMG) 版本。
+- **获取方式**：在 GitHub 仓库页面点击 **Actions** 选项卡，选择最近的一次工作流运行，在底部的 **Artifacts** 区域即可下载打包好的文件。
+
+#### 2. 本地手动打包 (Windows EXE)
+为了确保最佳兼容性，请使用以下步骤：
 1. **安装环境**：确保已安装 Python 3.12 (推荐使用官网版，避免 Windows Store 版)。
 2. **准备编译器**：Nuitka 需要 MinGW64。脚本会自动下载，或手动配置 `CC` 环境变量。
-3. **运行打包脚本**：
+3. **运行脚本**：
    ```powershell
    python build_exe.py
    ```
-   或手动执行命令：
+
+#### 3. 本地手动打包 (macOS DMG)
+1. **安装环境**：确保已安装 Python 3.10+ 和 `create-dmg` (`brew install create-dmg`)。
+2. **构建 App**：
    ```bash
-   python -m nuitka --standalone --show-progress --windows-console-mode=disable --plugin-enable=pyqt6 --follow-imports --include-package=cv2 --include-package=numpy --output-dir=build --onefile --mingw64 --assume-yes-for-downloads main.py
+   python build_dmg.py
+   ```
+3. **创建 DMG**：
+   ```bash
+   create-dmg --volname "CellCounter" "dist/CellCounter.dmg" "build/main.app"
    ```
 
 ### 🚀 后续 Release 计划
