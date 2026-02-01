@@ -19,6 +19,7 @@ def build():
         "--macos-create-app-bundle",
         "--show-progress",
         "--plugin-enable=pyqt6",
+        "--no-deployment-flag=self-test",
         "--follow-imports",
         "--include-package=cv2",
         "--include-package=numpy",

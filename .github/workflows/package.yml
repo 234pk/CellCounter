@@ -63,7 +63,16 @@ jobs:
 
       - name: Build App Bundle with Nuitka
         run: |
-          python -m nuitka --standalone --macos-create-app-bundle --show-progress --plugin-enable=pyqt6 --follow-imports --include-package=cv2 --include-package=numpy --output-dir=build main.py
+          python -m nuitka --standalone \
+            --macos-create-app-bundle \
+            --show-progress \
+            --plugin-enable=pyqt6 \
+            --no-deployment-flag=self-test \
+            --follow-imports \
+            --include-package=cv2 \
+            --include-package=numpy \
+            --output-dir=build \
+            main.py
 
       - name: Create DMG
         run: |
