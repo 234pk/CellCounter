@@ -32,7 +32,7 @@ jobs:
           python -m nuitka --standalone `
             --show-progress `
             --windows-console-mode=disable `
-            --plugin-enable=pyqt6 `
+            --plugin-enable=pyside6 `
             --follow-imports `
             --include-package=cv2 `
             --include-package=numpy `

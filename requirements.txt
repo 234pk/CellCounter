@@ -1,7 +1,7 @@
 # 血球计数板自动细胞计数软件依赖
 # 运行: pip install -r requirements.txt
 
-PyQt6>=6.4.0
+PySide6>=6.4.0
 opencv-python>=4.8.0
 numpy>=1.24.0
 
