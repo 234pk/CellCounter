@@ -36,6 +36,7 @@ jobs:
             --follow-imports `
             --include-package=cv2 `
             --include-package=numpy `
+            --include-data-file=gui/translations.json=gui/translations.json `
             --output-dir=build `
             --onefile `
             --assume-yes-for-downloads `
@@ -81,6 +82,7 @@ jobs:
             --follow-imports \
             --include-package=cv2 \
             --include-package=numpy \
+            --include-data-file=gui/translations.json=gui/translations.json \
             --output-dir=../build \
             --assume-yes-for-downloads \
             main.py
